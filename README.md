@@ -27,22 +27,28 @@ Data loading for this project is done in two steps.
 - Preprocess data
 - Load to DSE Graph
 
-### Prerequisite
+### Prerequisites
 
-Download data from Kaggle page linked above.
-Unzip it, and put the file to directory `/data/fraud/transactions.csv` inside DSEFS.
-
+Download data from Kaggle page linked above and unzip it.
 ```
 $ unzip paysim1.zip
-$ dse fs "put PS_20174392719_1491204439457_log.csv /data/fraud/transactions.csv
+```
+In DSE FS, create a directory called `/data/` that contains a directory called `fraud/`. Put `PS_20174392719_1491204439457_log.csv` into DSE FS at `/data/fraud/`; name the file `transactions.csv`: 
+
+```
+$ dse fs
+dsefs dsefs://127.0.0.1:5598/ > mkdir /data/
+dsefs dsefs://127.0.0.1:5598/ > mkdir /data/fraud/
+dsefs dsefs://127.0.0.1:5598/ > exit
+$ dse fs "put PS_20174392719_1491204439457_log.csv /data/fraud/transactions.csv"
 ```
 
 ### Preprocess data
 
 Preprocessing loads data you put is DSEFS and produces two parquet file.
 
-- /data/fraud/preprocessed/transactions.parquet
-- /data/fraud/preprocessed/edges.parquet
+- `/data/fraud/preprocessed/transactions.parquet`
+- `/data/fraud/preprocessed/edges.parquet`
 
 The former file contains transactions with generated transaction ID (`tranId` UUID). The latter contains transaction to customer relationship (from, to) so we can easily add edges later.
 
